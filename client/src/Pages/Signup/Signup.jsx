@@ -1,14 +1,14 @@
-
 import React from 'react'
 import { Link } from 'react-router-dom'
-import  {ToastContainer,toast }from "react-toastify";
+import  {ToastContainer,toast } from "react-toastify"
 import {useState} from "react"
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 
-const Login = () => {
-    const [loginInfo,setloginInfo]=useState({
+const Signup = () => {
+    const [signupInfo,setSignupInfo]=useState({
+        name:'',
         email:'',
         password:''
     });
@@ -18,12 +18,12 @@ const Login = () => {
     const handleChange=(e)=>{
         const {name,value}=e.target;
         console.log(name,value);
-        const copyloginInfo={...loginInfo};
-        copyloginInfo[name]=value;
-        setloginInfo(copyloginInfo);
+        const copySignupInfo={...signupInfo};
+        copySignupInfo[name]=value;
+        setSignupInfo(copySignupInfo);
     }
 
-    console.log("loginInfo->",loginInfo)
+    console.log("loginInfo->",signupInfo)
 
     const handleSuccess=(msg)=>{
         toast.success(msg,{
@@ -37,31 +37,29 @@ const Login = () => {
         })
     }
 
-    const handleLogin= async(e)=>{
+    const handleSignup= async(e)=>{
         e.preventDefault();
-        const {email,password}=loginInfo;
-        if( !email || !password){
-            return handleError(' email and password are required')
+        const {name,email,password}=signupInfo;
+        if(!name || !email || !password){
+            return handleError('name, email and password are required')
         }
         try{
-            const url="http://localhost:8080/auth/login";
+            const url="http://localhost:8080/auth/signup";
             const response = await fetch(url,{
                 method:"POST",
                 headers:{
                     'Content-Type':'application/json'
                 },
-                body:JSON.stringify(loginInfo)
+                body:JSON.stringify(signupInfo)
             });
 
             const result = await response.json();
 
-            const {success, message,jwtToken,name, error}=result;
+            const {success, message, error}=result;
             if(success){
                 handleSuccess(message);
-                localStorage.setItem('token',jwtToken);
-                localStorage.setItem('loggedInUser',name);
                 setTimeout(()=>{
-                    navigate('/home')
+                    navigate('/login')
                 },1000)
             }else if(error){
                 const details=error?.details[0].message;
@@ -79,18 +77,30 @@ const Login = () => {
     }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-  <div className="w-full max-w-md bg-white rounded-3xl shadow-md p-8">
-    <h1 className="text-2xl font-semibold text-gray-800 text-center mb-6">Login</h1>
-    <form onSubmit={handleLogin}>
+  
+  <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
+    <h1 className="text-2xl font-semibold text-gray-800 text-center mb-6">Signup</h1>
+    <form onSubmit={handleSignup}>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">Name</label>
+        <input
+          onChange={handleChange}
+          name="name"
+          type="text"
+          autoFocus
+          placeholder="Enter your name"
+          value={signupInfo.name}
+          className="w-full px-4 py-2 border rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
       <div className="mb-4">
         <label className="block text-gray-700 font-medium mb-2">Email</label>
         <input
           name="email"
           type="email"
           onChange={handleChange}
-          autoFocus
           placeholder="Enter your email"
-          value={loginInfo.email}
+          value={signupInfo.email}
           className="w-full px-4 py-2 border rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
@@ -101,7 +111,7 @@ const Login = () => {
           type="password"
           onChange={handleChange}
           placeholder="Enter your password"
-          value={loginInfo.password}
+          value={signupInfo.password}
           className="w-full px-4 py-2 border rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
@@ -109,14 +119,14 @@ const Login = () => {
         type="submit"
         className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
       >
-        Login
+        Signup
       </button>
     </form>
     <div className="flex justify-center mt-2">
     <span className="text-gray-600">
-      Don't have an account?{" "}
-      <Link to="/signup" className="text-blue-500 hover:underline">
-        Signup
+      Already have an account?{" "}
+      <Link to="/login" className="text-blue-500 hover:underline">
+        Login
       </Link>
     </span>
   </div>
@@ -126,4 +136,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Signup

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PageNotFound from "./Pages/404/PageNotFound";
-import Login from "./Pages/Login/login.jsx";
-import Register from "./Pages/Register/register.jsx";
+import Login from "./Pages/Login/Login.jsx";
+import Signup from "./Pages/Signup/Signup.jsx";
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
