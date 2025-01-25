@@ -1,10 +1,13 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import { connectDB } from "./config/db.js";
-import userRoutes from "./routes/userRoutes.js";
+import connectDB from "./config/db.js";
+import authRoutes from './routes/authRoutes.js'
+import eventRoutes from "./routes/eventRoutes.js"
+
 import cookieParser from "cookie-parser";
 import { errorMiddleware } from "./middlewares/error.js";
+
 
 const app = express();
 dotenv.config({
@@ -24,7 +27,8 @@ app.use(cookieParser());
 connectDB(process.env.MONGO_URI);
 const PORT = process.env.PORT || 5000;
 
-app.use("/api/v1/auth", userRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/events", eventRoutes);
 
 app.use(errorMiddleware);
 

@@ -1,7 +1,6 @@
-import Event from '../models/Event';
+import Event from "../models/Event.js";
 
-
-exports.createEvent = async (req, res) => {
+export const createEvent = async (req, res) => {
   try {
     const event = await Event.create({ ...req.body, creator: req.user.id });
     res.status(201).json(event);
@@ -10,7 +9,7 @@ exports.createEvent = async (req, res) => {
   }
 };
 
-exports.getEvents = async (req, res) => {
+export const getEvents = async (req, res) => {
   try {
     const events = await Event.find().populate("creator", "username");
     res.json(events);
@@ -19,7 +18,7 @@ exports.getEvents = async (req, res) => {
   }
 };
 
-exports.updateEvent = async (req, res) => {
+export const updateEvent = async (req, res) => {
   try {
     const event = await Event.findOneAndUpdate(
       { _id: req.params.id, creator: req.user.id },
@@ -36,7 +35,7 @@ exports.updateEvent = async (req, res) => {
   }
 };
 
-exports.deleteEvent = async (req, res) => {
+export const deleteEvent = async (req, res) => {
   try {
     const event = await Event.findOneAndDelete({
       _id: req.params.id,
