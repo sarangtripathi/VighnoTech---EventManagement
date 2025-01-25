@@ -16,10 +16,10 @@ const Login = () => {
 
     const navigate=useNavigate();
     const handleChange=(e)=>{
-        const {name,value}=e.target;
-        console.log(name,value);
+        const {username,value}=e.target;
+        console.log(username,value);
         const copyloginInfo={...loginInfo};
-        copyloginInfo[name]=value;
+        copyloginInfo[username]=value;
         setloginInfo(copyloginInfo);
     }
 
@@ -44,7 +44,7 @@ const Login = () => {
             return handleError(' email and password are required')
         }
         try{
-            const url="http://localhost:8080/auth/login";
+            const url="http://localhost:6080/api/auth/login";
             const response = await fetch(url,{
                 method:"POST",
                 headers:{
