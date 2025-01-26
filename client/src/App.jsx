@@ -19,9 +19,9 @@ function App() {
               <Route
                 path="/dashboard"
                 element={
-                  // <PrivateRoute>
+                  <PrivateRoute>
                     <DashBoard />
-                  // </PrivateRoute>
+                  </PrivateRoute>
                 }
               />
               <Route path="*" element={<Navigate to="/login" replace />} />
@@ -31,17 +31,12 @@ function App() {
         </div>
       </Router>
 
-      {/* <Router>
-        <Routes>
-
-          <Route path="dashboard" element={<DashBoard/>}/>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </Router> */}
     </>
   );
+}
+function PrivateRoute({ children }) {
+  const token = localStorage.getItem("token");
+  return token ? children : <Navigate to="/login" />;
 }
 
 export default App;
