@@ -1,99 +1,94 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const [loginInfo, setLoginInfo] = useState({
-    email: '',
-    password: '',
-  });
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    const { name, value } = e.target; // Correctly destructure name and value
-    setLoginInfo((prev) => ({ ...prev, [name]: value })); // Update state
-  };
-
-  console.log('loginInfo->', loginInfo);
 
   const handleSuccess = (msg) => {
     toast.success(msg, {
-      position: 'top-right',
+      position: "top-right",
     });
   };
 
   const handleError = (msg) => {
     toast.error(msg, {
-      position: 'top-right',
+      position: "top-right",
     });
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const { email, password } = loginInfo;
+
     if (!email || !password) {
-      return handleError('Email and password are required');
+      return handleError("Email and password are required");
     }
+
     try {
-      const url = 'http://localhost:6080/api/auth/login';
-      const response = await fetch(url, {
-        method: 'POST',
+      const response = await fetch("http://localhost:6080/api/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(loginInfo),
+        body: JSON.stringify({ email, password }),
       });
 
       const result = await response.json();
+      const { token, user, message } = result;
 
-      const { success, message, jwtToken, name, error } = result;
-      if (success) {
-        handleSuccess(message);
-        localStorage.setItem('token', jwtToken);
-        localStorage.setItem('loggedInUser', name);
+      if (response.ok) {
+        handleSuccess("Login successful");
+        localStorage.setItem("token", token);
+        localStorage.setItem("loggedInUser", user.username);
         setTimeout(() => {
-          navigate('/dashboard');
+          navigate("/dashboard");
         }, 1000);
-      } else if (error) {
-        const details = error?.details[0]?.message || 'Something went wrong';
-        handleError(details);
       } else {
-        handleError(message);
+        setError(message || "Invalid credentials");
+        handleError(message || "Invalid credentials");
       }
-      console.log(result);
-    } catch (error) {
-      handleError(error.message || 'An unexpected error occurred');
+    } catch (err) {
+      setError("An unexpected error occurred");
+      handleError("An unexpected error occurred");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-md p-8">
-        <h1 className="text-2xl font-semibold text-gray-800 text-center mb-6">Login</h1>
+        <h1 className="text-2xl font-semibold text-gray-800 text-center mb-6">
+          Login
+        </h1>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleLogin}>
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">Email</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              Email
+            </label>
             <input
-              name="email"
               type="email"
-              onChange={handleChange}
-              autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              value={loginInfo.email}
               className="w-full px-4 py-2 border rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
           <div className="mb-6">
-            <label className="block text-gray-700 font-medium mb-2">Password</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              Password
+            </label>
             <input
-              name="password"
               type="password"
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              value={loginInfo.password}
               className="w-full px-4 py-2 border rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
           <button
@@ -105,7 +100,7 @@ const Login = () => {
         </form>
         <div className="flex justify-center mt-2">
           <span className="text-gray-600">
-            Don't have an account?{' '}
+            Don't have an account?{" "}
             <Link to="/signup" className="text-blue-500 hover:underline">
               Signup
             </Link>
