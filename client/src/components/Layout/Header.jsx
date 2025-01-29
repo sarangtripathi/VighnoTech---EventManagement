@@ -23,7 +23,7 @@ const Header = () => {
     <header className="bg-blue-600 text-white">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div className="text-2xl font-bold cursor-pointer">
-          Event Manager
+          Event Management
         </div>
 
         {!isAuthPage && user && (
