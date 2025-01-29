@@ -39,34 +39,31 @@ const Signup = () => {
             return handleError('Username, email, and password are required');
         }
 
-        try {
-            const url = "http://localhost:6080/api/auth/register";
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(signupInfo)
-            });
+         try {
+           const url = "http://localhost:6080/api/auth/register";
+           const response = await fetch(url, {
+             method: "POST",
+             headers: {
+               "Content-Type": "application/json",
+             },
+             body: JSON.stringify(signupInfo),
+           });
 
-            const result = await response.json();
-            const { success, message, error } = result;
+           const result = await response.json();
+           console.log("Signup Response:", result); 
 
-            if (success) {
-                handleSuccess(message);
-                setTimeout(() => {
-                    navigate('/login');
-                }, 1000);
-            } else if (error) {
-                const details = error?.details[0]?.message;
-                handleError(details || 'An error occurred');
-            } else if (!success) {
-                handleError(message);
-            }
-
-        } catch (error) {
-            handleError('An unexpected error occurred');
-        }
+           if (response.status === 201 && result.token) {
+             handleSuccess("Signup successful!");
+             setTimeout(() => {
+               console.log("Navigating to login...");
+               navigate("/login");
+             }, 1000);
+           } else {
+             handleError(result.message || "An error occurred");
+           }
+         } catch (error) {
+           handleError("An unexpected error occurred");
+         }
     };
 
     return (

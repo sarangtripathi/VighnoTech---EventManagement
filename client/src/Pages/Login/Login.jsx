@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -7,19 +8,11 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { loginUser } = useAuth();
   const navigate = useNavigate();
 
-  const handleSuccess = (msg) => {
-    toast.success(msg, {
-      position: "top-right",
-    });
-  };
-
-  const handleError = (msg) => {
-    toast.error(msg, {
-      position: "top-right",
-    });
-  };
+  const handleSuccess = (msg) => toast.success(msg, { position: "top-right" });
+  const handleError = (msg) => toast.error(msg, { position: "top-right" });
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -31,9 +24,7 @@ const Login = () => {
     try {
       const response = await fetch("http://localhost:6080/api/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
@@ -42,11 +33,8 @@ const Login = () => {
 
       if (response.ok) {
         handleSuccess("Login successful");
-        localStorage.setItem("token", token);
-        localStorage.setItem("loggedInUser", user.username);
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 1000);
+        loginUser(user.username, token); 
+        navigate("/dashboard");
       } else {
         setError(message || "Invalid credentials");
         handleError(message || "Invalid credentials");

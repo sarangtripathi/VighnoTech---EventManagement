@@ -1,14 +1,22 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+// App.jsx
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { AuthProvider, useAuth } from "./contexts/AuthContext.jsx";
 import PageNotFound from "./Pages/404/PageNotFound";
 import Login from "./Pages/Login/Login.jsx";
 import Signup from "./Pages/Signup/Signup.jsx";
 import DashBoard from "./Pages/Dashboard/Dashboard.jsx";
 import Footer from ".././src/components/Layout/Footer.jsx";
 import Header from ".././src/components/Layout/Header.jsx";
+import Profile from "./Pages/Profile/Profile.jsx";
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <Router>
         <div className="flex flex-col min-h-screen">
           <Header />
@@ -16,6 +24,7 @@ function App() {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/profile" element={<Profile />} />
               <Route
                 path="/dashboard"
                 element={
@@ -30,13 +39,13 @@ function App() {
           <Footer />
         </div>
       </Router>
-
-    </>
+    </AuthProvider>
   );
 }
+
 function PrivateRoute({ children }) {
-  const token = localStorage.getItem("token");
-  return token ? children : <Navigate to="/login" />;
+  const { user } = useAuth();
+  return user ? children : <Navigate to="/login" />;
 }
 
 export default App;

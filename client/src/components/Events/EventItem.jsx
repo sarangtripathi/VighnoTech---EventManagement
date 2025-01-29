@@ -3,7 +3,7 @@ import Button from "../UI/Button";
 
 const EventItem = ({ event, onEdit, onDelete }) => {
   return (
-    <div className="bg-white shadow-md rounded-lg p-4">
+    <div className="bg-white shadow-md rounded-lg p-4 m-2">
       <h3 className="text-xl font-bold mb-2">{event.title}</h3>
       <p className="text-gray-600 mb-2">{event.description}</p>
       <p className="text-sm text-gray-500 mb-1">
