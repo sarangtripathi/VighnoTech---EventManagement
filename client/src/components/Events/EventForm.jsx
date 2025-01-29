@@ -9,11 +9,12 @@ const EventForm = ({ onSubmit, initialData }) => {
   const [location, setLocation] = useState("");
   const [capacity, setCapacity] = useState("");
 
+  // Set initial data if available (for edit functionality)
   useEffect(() => {
     if (initialData) {
       setTitle(initialData.title);
       setDescription(initialData.description);
-      setDateTime(initialData.dateTime.slice(0, 16));
+      setDateTime(initialData.dateTime.slice(0, 16));  // Ensure format for datetime-local input
       setLocation(initialData.location);
       setCapacity(initialData.capacity);
     }
@@ -21,14 +22,20 @@ const EventForm = ({ onSubmit, initialData }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(initialData ? initialData._id : {
+
+    // If initialData exists (for editing), pass the ID, else create a new event
+    const eventData = {
       title,
       description,
       dateTime,
       location,
       capacity: parseInt(capacity),
-    });
-    resetForm();
+    };
+
+    // When editing an event, pass the event ID, otherwise pass the event data
+    onSubmit(initialData ? initialData._id : null, eventData);
+
+    resetForm(); // Reset form after submit
   };
 
   const resetForm = () => {
