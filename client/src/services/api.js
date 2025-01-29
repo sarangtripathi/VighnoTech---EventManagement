@@ -26,4 +26,8 @@ export const updateEvent = (id, eventData) =>
 export const deleteEvent = (id) =>
   api.delete(`/events/${id}`).then((res) => res.data);
 
+export const getUserEvents = () => 
+  api.get("/events/user").then((res) => res.data);
+
+
 export default api;

@@ -4,6 +4,7 @@ import {
   createEvent,
   updateEvent,
   deleteEvent,
+  getUserEvents,
 } from "../controllers/eventController.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 
@@ -15,6 +16,8 @@ router.get("/", getEvents);
 router.post("/", createEvent);
 router.put("/:id", updateEvent);
 router.delete("/:id", deleteEvent);
+router.get("/user", getUserEvents);
+
 
 export default router;
 
