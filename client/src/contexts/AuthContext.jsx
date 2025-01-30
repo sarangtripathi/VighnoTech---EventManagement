@@ -6,20 +6,28 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    return localStorage.getItem("loggedInUser") || null; // ✅ Load user on initialization
+    const storedUser = localStorage.getItem("loggedInUser");
+    return storedUser ? JSON.parse(storedUser) : null; 
   });
 
   useEffect(() => {
     const storedUser = localStorage.getItem("loggedInUser");
-    if (storedUser) {
-      setUser(storedUser);
+    try {
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+      }
+    } catch (error) {
+      console.error("Error parsing user from localStorage:", error);
+      localStorage.removeItem("loggedInUser");
+      localStorage.removeItem("token");
     }
   }, []);
 
-  const loginUser = (username, token) => {
-    localStorage.setItem("loggedInUser", username);
+  const loginUser = (token, user) => {
+    localStorage.setItem("loggedInUser", JSON.stringify(user));
     localStorage.setItem("token", token);
-    setUser(username);
+    setUser(user);
   };
 
   const logoutUser = () => {

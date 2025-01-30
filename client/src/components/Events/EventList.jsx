@@ -27,7 +27,6 @@ const EventList = ({ events, onEdit, onDelete }) => {
     <div className="space-y-6">
       <div className="mb-4 space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* Search Input */}
           <Input
             type="text"
             placeholder="Search events..."
@@ -35,16 +34,14 @@ const EventList = ({ events, onEdit, onDelete }) => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all duration-200"
           />
-          
-          {/* Date Filter */}
+
           <Input
             type="date"
             value={filterDate}
             onChange={(e) => setFilterDate(e.target.value)}
             className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all duration-200"
           />
-          
-          {/* Location Filter */}
+
           <Input
             type="text"
             placeholder="Filter by location"
@@ -55,8 +52,7 @@ const EventList = ({ events, onEdit, onDelete }) => {
         </div>
       </div>
 
-      {/* Event List */}
-      <div className="bg-white shadow-lg rounded-lg p-4 max-h-96 overflow-y-auto space-y-4">
+      <div className="bg-white shadow-lg rounded-lg max-h-96 overflow-y-auto space-y-4">
         {filteredEvents.length > 0 ? (
           filteredEvents.map((event) => (
             <EventItem
@@ -71,6 +67,9 @@ const EventList = ({ events, onEdit, onDelete }) => {
           <p className="text-gray-500 text-center">No events available</p>
         )}
       </div>
+      {/* <p className="text-gray-600 text-sm text-center">
+        * You can edit/delete only your events.
+      </p> */}
     </div>
   );
 };

@@ -33,7 +33,7 @@ const Login = () => {
 
       if (response.ok) {
         handleSuccess("Login successful");
-        loginUser(user.username, token); 
+        loginUser(token, user); 
         navigate("/dashboard");
       } else {
         setError(message || "Invalid credentials");

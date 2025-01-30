@@ -56,7 +56,6 @@ const Dashboard = () => {
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-        {/* Event Form Section */}
         <div className="bg-white shadow-lg rounded-xl p-6 mb-8 md:mb-0">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">
             {editingEvent ? "Edit Event" : "Create New Event"}
@@ -67,7 +66,6 @@ const Dashboard = () => {
           />
         </div>
 
-        {/* Event List Section */}
         <div className="bg-white shadow-lg rounded-xl p-6">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Your Events</h2>
           <EventList

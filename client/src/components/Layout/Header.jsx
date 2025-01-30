@@ -33,7 +33,7 @@ const Header = () => {
                 onClick={() => setShowDropdown(!showDropdown)}
                 className="bg-gray-700 hover:bg-gray-800 px-4 py-2 rounded flex items-center"
               >
-                {isDashboardPage ? `Welcome, ${user}` : `${user}'s Profile`}
+                {isDashboardPage ? `Welcome, ${user.username}` : `${user.username}'s Profile`}
                 <span className="ml-2">▼</span>
               </button>
 

@@ -53,14 +53,6 @@ export const deleteEvent = async (req, res) => {
   }
 };
 
-// export const getUserEvents = async (req, res) => {
-//   try {
-//     const events = await Event.find({ creator: req.user.id }).populate("creator", "username");
-//     res.json(events);
-//   } catch (error) {
-//     res.status(400).json({ message: error.message });
-//   }
-// };
 
 export const getUserEvents = async (req, res) => {
   try {
