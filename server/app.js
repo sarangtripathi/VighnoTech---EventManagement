@@ -19,7 +19,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://vighno-tech-event-management-1fai-1u5kk9m7r.vercel.app/",
+      "https://vighno-tech-event-management-1fai-1u5kk9m7r.vercel.app",
     ],
     credentials: true,
   })
