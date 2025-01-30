@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import EventForm from "../../components/Events/EventForm";
 import EventList from "../../components/Events/EventList";
-import {
-  getEvents,
-  createEvent,
-  updateEvent,
-  deleteEvent,
-} from "../../services/api";
+import { getEvents, createEvent, updateEvent, deleteEvent } from "../../services/api";
 
 const Dashboard = () => {
   const [events, setEvents] = useState([]);
@@ -38,9 +33,7 @@ const Dashboard = () => {
   const handleUpdateEvent = async (id, eventData) => {
     try {
       const updatedEvent = await updateEvent(id, eventData);
-      setEvents(
-        events.map((event) => (event._id === id ? updatedEvent : event))
-      );
+      setEvents(events.map((event) => (event._id === id ? updatedEvent : event)));
       setEditingEvent(null);
     } catch (error) {
       console.error("Error updating event:", error);
@@ -57,14 +50,15 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-4xl font-bold mb-6">
-        <u>Dashboard</u>
+    <div className="container mx-auto px-4">
+      <h1 className="text-4xl font-semibold text-blue-600 mb-8 text-center">
+        <u>Event Dashboard</u>
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
-        <div>
-          <h2 className="text-2xl font-bold mb-4">
+
+        {/* Event Form Section */}
+        <div className="bg-white shadow-lg rounded-xl p-6 mb-8 md:mb-0">
+          <h2 className="text-2xl font-semibold text-gray-700 mb-4">
             {editingEvent ? "Edit Event" : "Create New Event"}
           </h2>
           <EventForm
@@ -73,15 +67,17 @@ const Dashboard = () => {
           />
         </div>
 
-        
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Event List</h2>
+        {/* Event List Section */}
+        <div className="bg-white shadow-lg rounded-xl p-6">
+          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Your Events</h2>
           <EventList
             events={events}
             onEdit={setEditingEvent}
             onDelete={handleDeleteEvent}
+            showEditDeleteButtons={true}
           />
         </div>
+
       </div>
     </div>
   );

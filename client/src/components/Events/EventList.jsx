@@ -24,28 +24,39 @@ const EventList = ({ events, onEdit, onDelete }) => {
     .sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
 
   return (
-    <div>
-      <div className="mb-4 space-y-2">
-        <Input
-          type="text"
-          placeholder="Search events..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <Input
-          type="date"
-          value={filterDate}
-          onChange={(e) => setFilterDate(e.target.value)}
-        />
-        <Input
-          type="text"
-          placeholder="Filter by location"
-          value={filterLocation}
-          onChange={(e) => setFilterLocation(e.target.value)}
-        />
+    <div className="space-y-6">
+      <div className="mb-4 space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Search Input */}
+          <Input
+            type="text"
+            placeholder="Search events..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+          />
+          
+          {/* Date Filter */}
+          <Input
+            type="date"
+            value={filterDate}
+            onChange={(e) => setFilterDate(e.target.value)}
+            className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+          />
+          
+          {/* Location Filter */}
+          <Input
+            type="text"
+            placeholder="Filter by location"
+            value={filterLocation}
+            onChange={(e) => setFilterLocation(e.target.value)}
+            className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+          />
+        </div>
       </div>
 
-      <div className="bg-white shadow-md rounded-lg p-4 max-h-96 overflow-y-auto">
+      {/* Event List */}
+      <div className="bg-white shadow-lg rounded-lg p-4 max-h-96 overflow-y-auto space-y-4">
         {filteredEvents.length > 0 ? (
           filteredEvents.map((event) => (
             <EventItem
@@ -53,6 +64,7 @@ const EventList = ({ events, onEdit, onDelete }) => {
               event={event}
               onEdit={() => onEdit(event)}
               onDelete={() => onDelete(event._id)}
+              showEditDeleteButtons={true}
             />
           ))
         ) : (

@@ -9,21 +9,19 @@ const EventForm = ({ onSubmit, initialData }) => {
   const [location, setLocation] = useState("");
   const [capacity, setCapacity] = useState("");
 
-  // Set initial data if available (for edit functionality)
   useEffect(() => {
     if (initialData) {
-      setTitle(initialData.title);
-      setDescription(initialData.description);
-      setDateTime(initialData.dateTime.slice(0, 16));  // Ensure format for datetime-local input
-      setLocation(initialData.location);
-      setCapacity(initialData.capacity);
+      setTitle(initialData.title || "");
+      setDescription(initialData.description || "");
+      setDateTime(initialData.dateTime ? initialData.dateTime.slice(0, 16) : "");
+      setLocation(initialData.location || "");
+      setCapacity(initialData.capacity ? String(initialData.capacity) : "");
     }
   }, [initialData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // If initialData exists (for editing), pass the ID, else create a new event
     const eventData = {
       title,
       description,
@@ -32,10 +30,13 @@ const EventForm = ({ onSubmit, initialData }) => {
       capacity: parseInt(capacity),
     };
 
-    // When editing an event, pass the event ID, otherwise pass the event data
-    onSubmit(initialData ? initialData._id : null, eventData);
+    if (initialData && initialData._id) {
+      onSubmit(initialData._id, eventData); // Update event
+    } else {
+      onSubmit(eventData); // Create new event
+    }
 
-    resetForm(); // Reset form after submit
+    resetForm();
   };
 
   const resetForm = () => {
@@ -83,8 +84,8 @@ const EventForm = ({ onSubmit, initialData }) => {
         onChange={(e) => setCapacity(e.target.value)}
         required
       />
-      <Button type="submit" className="px-2 py-1 bg-red-500 ">
-        {initialData ? "Update Event" : "Create Event"}
+      <Button type="submit" className="px-2 py-1 bg-red-500">
+        {initialData && initialData._id ? "Update Event" : "Create Event"}
       </Button>
     </form>
   );
