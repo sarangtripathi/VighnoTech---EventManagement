@@ -17,7 +17,10 @@ dotenv.config({
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173","https://vighno-tech-event-management-1fai-j7evmgiw0.vercel.app"],
+    origin: [
+      "http://localhost:5173",
+      "https://vighno-tech-event-management-1fai-1u5kk9m7r.vercel.app/",
+    ],
     credentials: true,
   })
 );
