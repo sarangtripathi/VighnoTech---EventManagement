@@ -40,7 +40,7 @@ const Signup = () => {
         }
 
          try {
-           const url = "http://localhost:6080/api/auth/register";
+           const url = "https://eventmanagement-backend-9wbu.onrender.com/api/auth/register";
            const response = await fetch(url, {
              method: "POST",
              headers: {
